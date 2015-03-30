@@ -243,11 +243,7 @@ typedef enum {
         if (maxCount > 0) {
             _countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
             _countLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
-#if (__IPHONE_OS_VERSION_MAX_ALLOWED < __IPHONE_6_0)
-			_countLabel.textAlignment = UITextAlignmentRight;
-#else
-			_countLabel.textAlignment = NSTextAlignmentRight;
-#endif
+            _countLabel.textAlignment = UITextAlignmentRight;
             _countLabel.backgroundColor = [UIColor clearColor];
             _countLabel.textColor = [UIColor lightGrayColor];
             _countLabel.font = [UIFont boldSystemFontOfSize:COUNT_SIZE];
@@ -396,7 +392,7 @@ typedef enum {
     else {
         targetView = view;
         frame = view.bounds;
-    }
+      }
     
     _backgroundView.alpha = 0;
     _backgroundView.frame = frame;
@@ -454,6 +450,9 @@ typedef enum {
         [self.delegate popupTextView:self willDismissWithText:self.text cancelled:cancelled];
     }
     
+    if (self.willDismiss)
+        self.willDismiss(self,self.text,cancelled);
+    
     [UIView animateWithDuration:ANIMATION_DURATION animations:^{
         
         _backgroundView.alpha = 0;
@@ -465,6 +464,9 @@ typedef enum {
                 [self.delegate popupTextView:self didDismissWithText:self.text cancelled:cancelled];
             }
             
+            if (self.didDismiss)
+                self.didDismiss(self,self.text,cancelled);
+
             [_backgroundView removeFromSuperview];
             _backgroundView = nil;
             _popupView = nil;
@@ -599,8 +601,12 @@ typedef enum {
     popupViewHeight = MIN(popupViewHeight, _backgroundView.bounds.size.height-topMargin-bottomMargin);
     
     CGRect frame = _backgroundView.bounds;
-    frame.origin.y = topMargin;
-    frame.size.height = popupViewHeight;
+    
+    if (!IS_IPAD)
+    {
+        frame.origin.y = topMargin;
+        frame.size.height = popupViewHeight;
+    }
     _popupView.frame = frame;
     
 }
@@ -619,7 +625,7 @@ typedef enum {
 - (void)updateCount
 {
     NSUInteger textCount = [self.text length];
-    _countLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)_maxCount-textCount];
+    _countLabel.text = [NSString stringWithFormat:@"%d", _maxCount-textCount];
     
     if (_maxCount > 0 && textCount > _maxCount) {
         _acceptButton.enabled = NO;
@@ -642,23 +648,12 @@ typedef enum {
 
 - (void)handleCloseButton:(UIButton*)sender
 {
-    [self _handleButtonWithCancelled:YES];
+    [self dismissWithCancelled:YES];
 }
 
 - (void)handleAcceptButton:(UIButton*)sender
 {
-    [self _handleButtonWithCancelled:NO];
-}
-
-- (void)_handleButtonWithCancelled:(BOOL)cancelled
-{
-    if ([self.delegate respondsToSelector:@selector(popupTextView:shouldDismissWithText:cancelled:)]) {
-        if (![self.delegate popupTextView:self shouldDismissWithText:self.text cancelled:cancelled]) {
-            return;
-        }
-    }
-    
-    [self dismissWithCancelled:cancelled];
+    [self dismissWithCancelled:NO];
 }
 
 #pragma mark
