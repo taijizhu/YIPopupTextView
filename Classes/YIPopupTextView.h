@@ -40,7 +40,7 @@ typedef void (^popupTextWillDismissBlock)(YIPopupTextView *textView, NSString * 
 @property (nonatomic, strong) UIColor* outerBackgroundColor;    // default = black opaque
 
 @property (nonatomic, assign) BOOL caretShiftGestureEnabled;    // default = NO
-
+@property (nonatomic, assign) NSUInteger maxCount;
 @property (nonatomic) CGFloat topUIBarMargin;       // set statusBar+navBar height for iOS7 fullscreen size manually
 @property (nonatomic) CGFloat bottomUIBarMargin;    // set tabBar+toolbar height for iOS7 fullscreen size manually
 

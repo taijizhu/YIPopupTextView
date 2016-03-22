@@ -1,5 +1,5 @@
-YIPopupTextView 1.1.1
-=====================
+YIPopupTextView
+===============
 
 facebook's post-like input text view for iOS.
 (Supported iPad splitted-keyboard in ver 1.1.0)
@@ -21,7 +21,7 @@ pod 'YIPopupTextView'
 
 How to use
 ----------
-```
+```objc
 // NOTE: maxCount = 0 to hide count
 YIPopupTextView* popupTextView = [[YIPopupTextView alloc] initWithPlaceHolder:@"input here" maxCount:1000];
 popupTextView.delegate = self;
@@ -45,7 +45,7 @@ popupTextView.text = self.textView.text;
 
 ### YIPopupTextViewButtonStyle
 
-```
+```objc
 typedef NS_ENUM(NSInteger, YIPopupTextViewButtonStyle) {
     YIPopupTextViewButtonStyleNone,
     YIPopupTextViewButtonStyleRightCancel,          // "x" on the upper-right
