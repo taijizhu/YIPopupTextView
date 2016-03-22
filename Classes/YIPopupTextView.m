@@ -343,6 +343,14 @@ typedef enum {
     return _maxCount;
 }
 
+- (UIButton*) getAcceptButton {
+    return _acceptButton;
+}
+
+- (UIButton*) getCloseButton {
+    return _closeButton;
+}
+
 - (void)setMaxCount:(NSUInteger)maxCount {
      _maxCount = maxCount;
     [self updateCount];

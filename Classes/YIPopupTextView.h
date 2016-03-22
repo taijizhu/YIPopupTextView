@@ -71,6 +71,8 @@ typedef void (^popupTextWillDismissBlock)(YIPopupTextView *textView, NSString * 
 
 - (void)dismiss;
 
+- (UIButton*) getAcceptButton;
+- (UIButton*) getCloseButton;
 
 @end
 
